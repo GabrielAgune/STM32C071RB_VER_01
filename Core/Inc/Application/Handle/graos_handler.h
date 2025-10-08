@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+
 /**
  * @brief Processa o evento de entrada na tela de seleção de grãos.
  * Orquestra a inicialização da lógica e a atualização da UI.
@@ -22,5 +23,17 @@ void Graos_Handle_Navegacao(int16_t tecla);
  * @return true se a tela de seleção estiver ativa, false caso contrário.
  */
 bool Graos_Esta_Em_Tela_Selecao(void);
+
+void Graos_Exibir_Resultados_Pesquisa(void);
+void Graos_Executar_Pesquisa(const char* termo_pesquisa);
+void Graos_Confirmar_Selecao_Pesquisa(uint8_t slot_selecionado);
+void Graos_Limpar_Resultados_Pesquisa(void);;
+
+void Graos_Handle_Pesquisa_Texto(const uint8_t* data, uint16_t len);
+
+/**
+ * @brief (NOVA FUNÇÃO) Trata o evento de clique no botão de mudança de página.
+ */
+void Graos_Handle_Page_Change(void);
 
 #endif // GRAOS_HANDLER_H

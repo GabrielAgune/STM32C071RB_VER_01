@@ -1,42 +1,61 @@
+/*******************************************************************************
+ * @file        medicao_handler.h
+ * @brief       Interface do Handler de Medições.
+ * @version     2.0 
+ * @author      Gabriel Agune
+ * @details     Centraliza toda a lógica de aquisição e cálculo de dados de
+ * medição (peso, frequência, temperatura, etc.).
+ ******************************************************************************/
+
 #ifndef MEDICAO_HANDLER_H
 #define MEDICAO_HANDLER_H
 
 #include <stdint.h>
 #include <stdbool.h>
 
-// Estrutura para armazenar os resultados de uma única medição
+// Estrutura de dados que armazena a última medição completa.
 typedef struct {
+    float Peso;
     float Frequencia;
     float Escala_A;
-    float Peso;
-    float Temp_Sample;
     float Temp_Instru;
     float Densidade;
     float Umidade;
 } DadosMedicao_t;
 
-
-// --- FUNÇÕES "SET" ---
-// Usadas durante o processo de medição para atualizar os valores.
-
-void Medicao_Init(void); // Zera os dados para uma nova medição
-void Medicao_Set_Frequencia(float valor);
-void Medicao_Set_Escala_A(float valor);
-void Medicao_Set_Peso(float valor);
-void Medicao_Set_Temp_Sample(float valor);
-void Medicao_Set_Temp_Instru(float valor);
-void Medicao_Set_Densidade(float valor);
-void Medicao_Set_Umidade(float valor);
-
-
-// --- FUNÇÃO "GET" ---
-// Usada por outros módulos (como o relatorio_handler) para ler o resultado final.
+/**
+ * @brief Inicializa o handler de medição.
+ */
+void Medicao_Init(void);
 
 /**
- * @brief Obtém uma cópia completa dos dados da última medição.
- * @param dados_out Ponteiro para uma struct que será preenchida com os dados.
+ * @brief Processa as lógicas de medição que devem rodar no super-loop.
+ * Isso inclui a leitura da balança e a atualização periódica da frequência.
  */
-void Medicao_Get_UltimaMedicao(DadosMedicao_t* dados_out);
+void Medicao_Process(void);
+
+/**
+ * @brief Obtém uma cópia da última medição consolidada.
+ * @param[out] dados Ponteiro para a estrutura onde os dados serão copiados.
+ */
+void Medicao_Get_UltimaMedicao(DadosMedicao_t* dados);
+
+// --- Funções de atualização para valores definidos externamente ---
+
+/**
+ * @brief Atualiza a temperatura do instrumento lida pelo sensor do MCU.
+ */
+void Medicao_Set_Temp_Instru(float temp_instru);
+
+/**
+ * @brief Define a densidade do grão atual (usado para cálculos futuros).
+ */
+void Medicao_Set_Densidade(float densidade);
+
+/**
+ * @brief Define a umidade do grão atual (usado para cálculos futuros).
+ */
+void Medicao_Set_Umidade(float umidade);
 
 
 #endif // MEDICAO_HANDLER_H

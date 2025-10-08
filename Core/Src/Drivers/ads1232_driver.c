@@ -6,7 +6,7 @@
 
 
 static int32_t cal_zero_adc = 0; // ADC do ponto de 0 g da TABELA de calibração
-static volatile bool g_ads_data_ready = false;
+volatile bool g_ads_data_ready = false;
 
 // --- DEFINIÇÃO DA TABELA DE CALIBRAÇÃO ---
 // Os valores de adc_value devem ser preenchidos por você com a rotina de calibração

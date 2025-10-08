@@ -19,7 +19,7 @@
  */
 
 #define DWIN_RX_BUFFER_SIZE         64  /**< Tamanho do buffer DMA RX. */
-#define DWIN_TX_FIFO_SIZE          128  /**< Tamanho do buffer circular software para TX. */
+#define DWIN_TX_FIFO_SIZE          256  /**< Tamanho do buffer circular software para TX. */
 #define DWIN_TX_DMA_BUFFER_SIZE     64  /**< Tamanho do buffer linear DMA TX. */
 
 static const uint8_t CMD_AJUSTAR_BACKLIGHT_10[] = {0x5A, 0xA5, 0x05, 0x82, 0x00, 0x82, 0x0A, 0x00};
@@ -64,6 +64,21 @@ enum
 		PHOTDIODE        = 0x2270,
 		GAVETA           = 0x2280,
 		VP_MESSAGES      = 0x4096,
+		
+		VP_SEARCH_INPUT         = 0x8100,
+		VP_RESULT_NAME_1        = 0x8200,
+    VP_RESULT_NAME_2        = 0x8220,
+    VP_RESULT_NAME_3        = 0x8240,
+    VP_RESULT_NAME_4        = 0x8260,
+    VP_RESULT_NAME_5        = 0x8280,
+    VP_RESULT_NAME_6        = 0x8300,
+    VP_RESULT_NAME_7        = 0x8320,
+    VP_RESULT_NAME_8        = 0x8340,
+    VP_RESULT_NAME_9        = 0x8360,
+    VP_RESULT_NAME_10       = 0x8380,
+		
+		VP_RESULT_SELECT        = 0x8400, 
+		VP_PAGE_INDICATOR       = 0x8500,
 };
 
 
@@ -135,7 +150,7 @@ enum
 	MEDE_REPETICAO        =  21,
 	MEDE_PRINT_REPORT     =  22,
 	
-	SELECT_GRAO           =  36,
+	SELECT_GRAO           =  102,
 	
 	TELA_CONFIGURAR       =  23,
 	TELA_SET_JUST_TIME    =  25,
@@ -170,6 +185,7 @@ enum
 	SENHA_MIN_4_CARAC     =  63,
 	SENHAS_DIFERENTES     =  64,
 	
+	TELA_PESQUISA         = 101,
 };
 
 

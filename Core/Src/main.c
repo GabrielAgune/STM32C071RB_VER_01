@@ -113,11 +113,9 @@ int main(void)
 	
 	App_Manager_Init();
 	
-	if (!App_Manager_Run_Self_Diagnostics(PRINCIPAL))
-  {
-      printf("ERRO FATAL DURANTE O AUTODIAGNOSTICO!\r\n");
-      while(1) {}
-  }
+	App_Manager_Run_Self_Diagnostics(PRINCIPAL);
+  
+      
 	HAL_TIM_Base_Start_IT(&htim14);
   /* USER CODE END 2 */
 

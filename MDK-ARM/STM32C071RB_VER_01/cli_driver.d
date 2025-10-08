@@ -43,12 +43,12 @@ stm32c071rb_ver_01/cli_driver.o: ..\Core\Src\Application\cli_driver.c \
   ..\Core\Inc\i2c.h ..\Core\Inc\usart.h ..\Core\Inc\crc.h \
   ..\Core\Inc\rtc.h ..\Core\Inc\tim.h \
   ..\Core\Inc\Drivers\eeprom_driver.h \
-  ..\Core\Inc\Drivers\ads1232_driver.h \
   ..\Core\Inc\Drivers\pwm_servo_driver.h \
+  ..\Core\Inc\Drivers\ads1232_driver.h \
   ..\Core\Inc\Drivers\pcb_frequency.h ..\Core\Inc\Drivers\temp_sensor.h \
-  ..\Core\Inc\Modules\gerenciador_configuracoes.h \
   ..\Core\Inc\Modules\servo_controle.h \
   ..\Core\Inc\Application\controller.h ..\Core\Inc\Drivers\rtc_driver.h \
+  ..\Core\Inc\Modules\gerenciador_configuracoes.h \
   ..\Core\Inc\Application\Handle\autenticacao_handler.h \
   ..\Core\Inc\Application\Handle\dwin_parser.h \
   ..\Core\Inc\Application\Handle\rtc_handler.h \

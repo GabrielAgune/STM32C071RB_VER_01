@@ -69,7 +69,7 @@ void Controller_DwinCallback(const uint8_t* data, uint16_t len)
         switch (vp_address) {
 
 						//Tela inicial
-						case DESCARTA_AMOSTRA		:		Telas_Mede();                                                                          break;
+						case DESCARTA_AMOSTRA		:		Display_StartMeasurementSequence();                                                    break;
 						case SELECT_GRAIN				:		Graos_Handle_Entrada_Tela();                                                        	 break;
 						case PRINT							:		Display_ProcessPrintEvent(received_value);                                             break;
             case OFF								:		App_Manager_Request_Sleep();                                                           break;
@@ -101,8 +101,13 @@ void Controller_DwinCallback(const uint8_t* data, uint16_t len)
 						case SYSTEM_BURNIN      :                                                                                          break;
 						
 						case TECLAS							:		Graos_Handle_Navegacao(received_value);           																		 break;
-						case ESCAPE							:		Handle_Escape_Navigation();																												     break;
+						case ESCAPE							:		Handle_Escape_Navigation();	Graos_Limpar_Resultados_Pesquisa();										     break;
 						
+						case VP_SEARCH_INPUT    :   Graos_Handle_Pesquisa_Texto(data, len);                                                break;
+						
+						case VP_RESULT_SELECT   :   Graos_Confirmar_Selecao_Pesquisa(received_value);                                      break;
+						case VP_PAGE_INDICATOR  :   Graos_Handle_Page_Change();                                                            break;
+
             default:                                                                 
 							break;
         }

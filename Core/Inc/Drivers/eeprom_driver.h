@@ -12,7 +12,7 @@
 
 // --- DEFINES DAS CONSTANTES FALTANTES ---
 // (Estas constantes são baseadas nas suas respostas)
-#define EEPROM_PAGE_SIZE        32     // 32 Bytes para AT24C64 (serve para AT24C512 também)
+#define EEPROM_PAGE_SIZE        128    // 32 Bytes para AT24C64 (serve 128 para AT24C512)
 #define EEPROM_WRITE_TIME_MS    5      // 5ms de tempo de escrita de página
 #define EEPROM_I2C_TIMEOUT      100    // Timeout de boot (para funções bloqueantes)
 

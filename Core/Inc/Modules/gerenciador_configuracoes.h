@@ -10,7 +10,7 @@
 // Definições de Configuração
 //==============================================================================
 
-#define MAX_GRAOS 7
+#define MAX_GRAOS 134
 #define MAX_NOME_GRAO_LEN 16
 #define MAX_SENHA_LEN 10
 #define MAX_VALIDADE_LEN 10

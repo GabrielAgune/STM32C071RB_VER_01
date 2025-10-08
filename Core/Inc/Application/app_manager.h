@@ -17,20 +17,41 @@
 // Includes dos Nossos Módulos e Drivers
 #include "dwin_driver.h"
 #include "eeprom_driver.h"
-#include "ads1232_driver.h"
 #include "pwm_servo_driver.h"
+#include "cli_driver.h"
+#include "eeprom_driver.h"
+#include "ads1232_driver.h"
 #include "pcb_frequency.h"
 #include "temp_sensor.h"
-#include "gerenciador_configuracoes.h"
 #include "servo_controle.h"
 #include "controller.h"
-#include "cli_driver.h"
+#include "gerenciador_configuracoes.h"
+#include "medicao_handler.h"
+#include "display_handler.h"
+#include <stdio.h>
+#include <string.h>
 
 typedef enum {
   STATE_ACTIVE,
   STATE_STOPPED,
   STATE_CONFIRM_WAKEUP
 } SystemState_t;
+
+/**
+ * @brief Ponteiro de função para um teste de diagnóstico individual.
+ * @return true em caso de sucesso, false em caso de falha.
+ */
+typedef bool (*DiagnosticTestFunc)(void);
+
+/**
+ * @brief Estrutura que define uma única etapa do autodiagnóstico.
+ */
+typedef struct {
+    const char* description;         // Descrição para o log do console (printf)
+    uint16_t    screen_id;           // ID da tela DWIN a ser exibida
+    uint32_t    display_time_ms;     // Tempo que a tela fica visível
+    DiagnosticTestFunc execute_test; // Ponteiro para a função de teste
+} DiagnosticStep_t;
 
 /**
  * @brief Inicializa todos os módulos da aplicação em uma sequência controlada.

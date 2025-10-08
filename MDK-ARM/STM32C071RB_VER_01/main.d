@@ -42,12 +42,13 @@ stm32c071rb_ver_01/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Core\Inc\usart.h ..\Core\Inc\usb.h ..\Core\Inc\gpio.h \
   ..\Core\Inc\Application\app_manager.h \
   ..\Core\Inc\Drivers\dwin_driver.h ..\Core\Inc\Drivers\eeprom_driver.h \
-  ..\Core\Inc\Drivers\ads1232_driver.h \
   ..\Core\Inc\Drivers\pwm_servo_driver.h \
+  ..\Core\Inc\Application\cli_driver.h \
+  ..\Core\Inc\Drivers\ads1232_driver.h \
   ..\Core\Inc\Drivers\pcb_frequency.h ..\Core\Inc\Drivers\temp_sensor.h \
-  ..\Core\Inc\Modules\gerenciador_configuracoes.h \
   ..\Core\Inc\Modules\servo_controle.h \
   ..\Core\Inc\Application\controller.h ..\Core\Inc\Drivers\rtc_driver.h \
+  ..\Core\Inc\Modules\gerenciador_configuracoes.h \
   ..\Core\Inc\Application\Handle\autenticacao_handler.h \
   ..\Core\Inc\Application\Handle\dwin_parser.h \
   ..\Core\Inc\Application\Handle\rtc_handler.h \
@@ -55,5 +56,4 @@ stm32c071rb_ver_01/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Core\Inc\Application\Handle\medicao_handler.h \
   ..\Core\Inc\Application\relato.h \
   ..\Core\Inc\Application\Handle\graos_handler.h \
-  ..\Core\Inc\Application\cli_driver.h \
   ..\Core\Inc\Application\retarget.h
