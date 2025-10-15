@@ -29,6 +29,7 @@
 #include "gpio.h"
 #include "app_manager.h"
 #include "retarget.h"
+#include <stdio.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -115,7 +116,18 @@ int main(void)
 	
 	App_Manager_Run_Self_Diagnostics(PRINCIPAL);
   
-      
+  char uart_buf[200];
+
+  sprintf(uart_buf,
+          "--- Diagnostico de Memoria ---\r\n"
+          "Tamanho de um bloco (Config_Aplicacao_t): %u bytes\r\n"
+          "Espaco total necessario (3 blocos): %u bytes\r\n"
+          "Tamanho total da EEPROM: %u bytes\r\n\r\n",
+          (unsigned int)sizeof(Config_Aplicacao_t),
+          (unsigned int)(CONFIG_BLOCK_SIZE * 3),
+          (unsigned int)EEPROM_TOTAL_SIZE_BYTES);
+	
+	printf("%s", uart_buf);
 	HAL_TIM_Base_Start_IT(&htim14);
   /* USER CODE END 2 */
 

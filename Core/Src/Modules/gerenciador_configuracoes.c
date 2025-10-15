@@ -23,6 +23,8 @@
 
 static CRC_HandleTypeDef *s_crc_handle = NULL;
 
+
+
 /**
  * @brief CÓPIA CACHE NA RAM.
  * Esta é a "fonte da verdade" para toda a aplicação durante o runtime.
@@ -527,6 +529,3 @@ static bool Carregar_Primeira_Config_Valida(Config_Aplicacao_t* config_out)
     if (Tentar_Carregar_De_Endereco(ADDR_CONFIG_BACKUP2, config_out)) return true;
     return false;
 }
-
-// (Removida: Salvar_Configuracao_Completa. Substituída pela FSM Run().)
-// (Removida: Carregar_Primeira_Config_Valida (agora usada apenas internamente no boot)).

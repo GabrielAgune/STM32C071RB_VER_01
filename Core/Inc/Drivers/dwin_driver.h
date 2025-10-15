@@ -135,7 +135,7 @@ enum
 	BOOT_CLOCK            =   6,
 	BOOT_CRIPTO           =   7,
 	
-	PRINCIPAL             =   8,
+	PRINCIPAL             = 103,
 	SYSTEM_STANDBY        =  11,
 	TELA_CONFIRM_WAKEUP   =  99,
 	

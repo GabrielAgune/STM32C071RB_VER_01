@@ -15,7 +15,7 @@
 #define MAX_RESULTADOS_POR_PAGINA 10
 
 // --- Variáveis para Pesquisa e Paginação ---
-static int8_t s_indices_resultados_pesquisa[MAX_RESULTADOS_PESQUISA];
+static int16_t s_indices_resultados_pesquisa[MAX_RESULTADOS_PESQUISA];
 static uint8_t s_num_resultados_encontrados = 0;
 static uint8_t s_current_page = 1;
 static uint8_t s_total_pages = 1;
@@ -28,7 +28,7 @@ static const uint16_t s_vps_resultados_nomes[] = {
 };
 
 // --- Variáveis para Navegação por Setas ---
-static uint8_t s_indice_grao_selecionado = 0;
+static int16_t s_indice_grao_selecionado = 0;
 static bool s_em_tela_de_selecao = false;
 
 // Enum para os resultados da lógica de navegação por setas
@@ -43,7 +43,7 @@ typedef enum {
 // Protótipos das Funções Internas
 //================================================================================
 
-static void atualizar_display_grao_selecionado(int8_t indice);
+static void atualizar_display_grao_selecionado(int16_t indice);
 static void Graos_Update_Page_Indicator(void);
 static GraosNavResult_t graos_handle_navegacao_logic(int16_t tecla);
 static char* stristr(const char* str1, const char* str2);
@@ -133,7 +133,7 @@ void Graos_Confirmar_Selecao_Pesquisa(uint8_t slot_selecionado)
 
     if (real_result_index < s_num_resultados_encontrados)
     {
-        int8_t indice_final = s_indices_resultados_pesquisa[real_result_index];
+        int16_t indice_final = s_indices_resultados_pesquisa[real_result_index];
         printf("Selecao via pesquisa confirmada. Indice do Grao: %d. Salvando...\r\n", indice_final);
         
         s_em_tela_de_selecao = false;
@@ -181,11 +181,27 @@ void Graos_Executar_Pesquisa(const char* termo_pesquisa)
         }
     }
 
-    s_current_page = 1;
-    s_total_pages = (s_num_resultados_encontrados == 0) ? 1 : ((s_num_resultados_encontrados - 1) / MAX_RESULTADOS_POR_PAGINA) + 1;
+    if (s_num_resultados_encontrados == 0)
+    {
+        printf("Pesquisa por '%s' nao encontrou resultados. Exibindo tela de erro.\r\n", termo_pesquisa);
+        
+        // ...manda o display para a tela de erro.
+        DWIN_Driver_SetScreen(MSG_ALERTA); 
+				DWIN_Driver_WriteString(VP_MESSAGES, "Nenhum grao encontrado!", sizeof("Nenhum grao encontrado!"));
+        // Garante que o comando seja enviado
+        while (DWIN_Driver_IsTxBusy()) {
+            DWIN_TX_Pump();
+        }
+    }
+    else // Caso contrário, se encontramos resultados...
+    {
+        // ...continua com a lógica normal de paginação e exibição.
+        s_current_page = 1;
+        s_total_pages = (s_num_resultados_encontrados == 0) ? 1 : ((s_num_resultados_encontrados - 1) / MAX_RESULTADOS_POR_PAGINA) + 1;
 
-    Graos_Update_Page_Indicator();
-    Graos_Exibir_Resultados_Pesquisa();
+        Graos_Update_Page_Indicator();
+        Graos_Exibir_Resultados_Pesquisa();
+    }
 }
 
 void Graos_Exibir_Resultados_Pesquisa(void)
@@ -224,19 +240,25 @@ static GraosNavResult_t graos_handle_navegacao_logic(int16_t tecla)
 {
     if (!s_em_tela_de_selecao) return NAV_RESULT_NO_CHANGE;
 
-    uint8_t total_de_graos = Gerenciador_Config_Get_Num_Graos();
+    // Assumindo que Gerenciador_Config_Get_Num_Graos() retorna um uint8_t, ex: 134
+    uint8_t total_de_graos = Gerenciador_Config_Get_Num_Graos(); 
     if (total_de_graos == 0) return NAV_RESULT_NO_CHANGE;
 
     switch (tecla)
     {
         case DWIN_TECLA_SETA_DIR:
             s_indice_grao_selecionado++;
-            if (s_indice_grao_selecionado >= total_de_graos) s_indice_grao_selecionado = 0;
+            // Se o índice passar do último (ex: 134), ele volta para 0.
+            if (s_indice_grao_selecionado >= total_de_graos) {
+                s_indice_grao_selecionado = 0;
+            }
             return NAV_RESULT_SELECTION_MOVED;
 
         case DWIN_TECLA_SETA_ESQ:
             s_indice_grao_selecionado--;
-            if (s_indice_grao_selecionado < 0) s_indice_grao_selecionado = total_de_graos - 1;
+            if (s_indice_grao_selecionado < 0) {
+                s_indice_grao_selecionado = total_de_graos - 1; // Ex: 134 - 1 = 133
+            }
             return NAV_RESULT_SELECTION_MOVED;
 
         case DWIN_TECLA_CONFIRMA:
@@ -250,7 +272,7 @@ static GraosNavResult_t graos_handle_navegacao_logic(int16_t tecla)
     }
 }
 
-static void atualizar_display_grao_selecionado(int8_t indice)
+static void atualizar_display_grao_selecionado(int16_t indice)
 {
     Config_Grao_t dados_grao;
     char buffer_display[25]; 

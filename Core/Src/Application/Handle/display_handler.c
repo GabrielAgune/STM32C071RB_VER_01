@@ -16,6 +16,7 @@
 //================================================================================
 
 #define DWIN_VP_ENTRADA_TELA 0x0050 // Valor padrão enviado pelo DWIN ao entrar em uma tela de edição
+#define DWIN_VP_ENTRADA_SERVICO 0x0000
 
 // --- Máquina de Estados para a Sequência de Medição ---
 typedef enum {
@@ -206,7 +207,7 @@ void Display_ShowModel(void)
 
 void Display_Preset(uint16_t received_value)
 {
-    if (received_value == 0x0000)
+    if (received_value == DWIN_VP_ENTRADA_SERVICO)
     {
         DWIN_Driver_WriteString(VP_MESSAGES, "Preset redefine os ajustes!", strlen("Preset redefine os ajustes!"));
         DWIN_Driver_SetScreen(TELA_PRESET_PRODUCT);
@@ -222,7 +223,7 @@ void Display_Set_Serial(const uint8_t* dwin_data, uint16_t len, uint16_t receive
 {
     char buffer_display[50] = {0};
 
-    if (received_value == DWIN_VP_ENTRADA_TELA)
+    if (received_value == DWIN_VP_ENTRADA_SERVICO)
     {
         DWIN_Driver_SetScreen(TELA_SET_SERIAL);
         char serial_atual[17] = {0};

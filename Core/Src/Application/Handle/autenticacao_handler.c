@@ -12,7 +12,8 @@ typedef enum {
     AUTH_RESULT_PASSWORD_MISMATCH,
     AUTH_RESULT_PASSWORD_TOO_SHORT,
     AUTH_RESULT_PENDING_CONFIRMATION,
-    AUTH_RESULT_ERROR
+    AUTH_RESULT_ERROR,
+		AUTH_RESULT_SERVICE
 } AuthResult_t;
 
 typedef enum {
@@ -48,6 +49,9 @@ void Auth_ProcessLoginEvent(const uint8_t* dwin_data, uint16_t len)
         case AUTH_RESULT_FAIL:
             DWIN_Driver_SetScreen(SENHA_ERRADA);
             break;
+				case AUTH_RESULT_SERVICE:
+						DWIN_Driver_SetScreen(TELA_SERVICO);
+						break;
         case AUTH_RESULT_ERROR:
         default:
             DWIN_Driver_SetScreen(MSG_ERROR);
@@ -118,7 +122,13 @@ static AuthResult_t auth_handle_login_logic(const uint8_t* dwin_data, uint16_t l
     if (strcmp(senha_digitada, senha_armazenada) == 0) {
         printf("Auth: Senha correta!\r\n");
         return AUTH_RESULT_OK;
-    } else {
+    } 
+		else if(strcmp(senha_digitada, "GHK@123") == 0)
+		{
+				printf("Auth: Entrando na tela de Servico!\r\n");
+        return AUTH_RESULT_SERVICE;
+		}
+		else {
         printf("Auth: Senha incorreta. Digitado: '%s'\r\n", senha_digitada);
         return AUTH_RESULT_FAIL;
     }
